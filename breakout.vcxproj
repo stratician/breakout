@@ -20,6 +20,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\breakout.cpp" />
+    <ClCompile Include="source\Bullet.cpp" />
+    <ClCompile Include="source\BulletCtrl.cpp" />
+    <ClCompile Include="source\Common.cpp" />
+    <ClCompile Include="source\Enemy.cpp" />
+    <ClCompile Include="source\EnemyCtrl.cpp" />
+    <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="source\Sprite.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Bullet.h" />
+    <ClInclude Include="source\BulletCtrl.h" />
+    <ClInclude Include="source\Common.h" />
+    <ClInclude Include="source\Enemy.h" />
+    <ClInclude Include="source\EnemyCtrl.h" />
+    <ClInclude Include="source\Player.h" />
+    <ClInclude Include="source\Sprite.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -75,15 +91,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\SDL2\SDL2\include;C:\SDL2\SDL2_image\include;C:\SDL2\SDL_mixer-1.2.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2\SDL2\lib\x86;C:\SDL2\SDL2_image\lib\x86;C:\SDL2\SDL_mixer-1.2.12\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\SDL2\SDL2\include;C:\SDL2\SDL2_image\include;C:\SDL2\SDL_mixer-1.2.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2\SDL2\lib\x86;C:\SDL2\SDL2_image\lib\x86;C:\SDL2\SDL_mixer-1.2.12\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\SDL2\SDL2\include;C:\SDL2\SDL2_image\include;C:\SDL2\SDL2_mixer-2.0.4\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2\SDL2\lib\x64;C:\SDL2\SDL2_image\lib\x64;C:\SDL2\SDL2_mixer-2.0.4\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\SDL2\SDL2\include;C:\SDL2\SDL2_image\include;C:\SDL2\SDL2_mixer-2.0.4\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2\SDL2\lib\x64;C:\SDL2\SDL2_image\lib\x64;C:\SDL2\SDL2_mixer-2.0.4\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -95,6 +119,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -111,6 +136,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,6 +149,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,6 +166,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

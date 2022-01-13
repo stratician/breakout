@@ -3,6 +3,9 @@
 
 #include "Sprite.h"
 #include "Bullet.h"
+#include "HealthBar.h"
+
+class HealthBar;
 
 enum WEAPON_TYPE {
 	WEAPON_DEFAULT,
@@ -19,6 +22,7 @@ protected:
 
 	SDL_Texture* tex;
 	CSprite* spr;
+	HealthBar* healthbar;
 
 	int texWidth;
 	int texHeight;

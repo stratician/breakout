@@ -22,6 +22,11 @@ Player::~Player()
 	{
 		delete spr;
 	}
+
+	if (healthbar)
+	{
+		delete healthbar;
+	}
 }
 
 
@@ -61,6 +66,8 @@ bool Player::Init(OWNER_TYPE ownerType)
 	Respawn();
 	SetWeapon(0);
 
+	healthbar = new HealthBar(this, this->life, 60, 10);
+
 	return true;
 }
 
@@ -75,6 +82,11 @@ void Player::SetWeapon(const int type)
 void Player::Render()
 {
 	spr->Render(gRenderer, x, y, 0.3, 0.3f, 0.0, true);
+
+	if (healthbar)
+	{
+		healthbar->Render();
+	}
 }
 
 

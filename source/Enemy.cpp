@@ -64,10 +64,13 @@ void Enemy::SetWeapon(const int type)
 
 void Enemy::Render()
 {
+	
 
 	double sx = 0.3f * this->radius / 30.0f;
 	double sy = 0.3f * this->radius / 30.0f;
-	spr->Render(gRenderer, x, y, sx, sy, 0, true);
+
+	Player::Render();
+	
 }
 
 

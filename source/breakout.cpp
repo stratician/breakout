@@ -30,7 +30,7 @@ Mix_Chunk* gMedium = NULL;
 Mix_Chunk* gLow = NULL;
 Mix_Chunk* gFlame = NULL;
 
-
+SDL_Surface* surf = NULL;
 
 
 bool bAlive = true;
@@ -200,6 +200,10 @@ bool loadMedia()
 	Mix_ReserveChannels(1);
 
 	
+	
+
+
+
 	return success;
 }
 
@@ -352,8 +356,6 @@ int main(int argc, char* args[])
 
 				// Render Stuff goes here
 				backgroundSpr->Render(gRenderer, 0, 0, 1.0f, 1.0f);
-
-
 
 				Render();
 

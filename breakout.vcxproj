@@ -25,6 +25,7 @@
     <ClCompile Include="source\Common.cpp" />
     <ClCompile Include="source\Enemy.cpp" />
     <ClCompile Include="source\EnemyCtrl.cpp" />
+    <ClCompile Include="source\HealthBar.cpp" />
     <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\Sprite.cpp" />
   </ItemGroup>
@@ -34,6 +35,7 @@
     <ClInclude Include="source\Common.h" />
     <ClInclude Include="source\Enemy.h" />
     <ClInclude Include="source\EnemyCtrl.h" />
+    <ClInclude Include="source\HealthBar.h" />
     <ClInclude Include="source\Player.h" />
     <ClInclude Include="source\Sprite.h" />
   </ItemGroup>

@@ -2,7 +2,7 @@
 #include "Common.h"
 
 
-HealthBar::HealthBar(Player* owner, int maxHealth, double width, double height)
+HealthBar::HealthBar(Entity* owner, int maxHealth, double width, double height)
 {
 	this->maxHealth = maxHealth;
 	this->health = this->maxHealth;
@@ -23,16 +23,19 @@ void HealthBar::Render() const
 {
 	assert(owner);
 
+	double width = this->width * (owner->getWidth() / 100.0f);
+
 	if (this->health > 0)
 	{
+		double height = owner->getHeight();
 
-		SDL_Rect rect = { owner->getX() - this->width / 2, owner->getY(), this->width, this->height };
-		SDL_SetRenderDrawColor(gRenderer, 33, 33, 33, 55);
+		SDL_Rect rect = { owner->getX() - width / 2, owner->getY() + owner->getHeight() * 0.4, width, this->height };
+		SDL_SetRenderDrawColor(gRenderer, 20, 60, 33, 128);
 		SDL_RenderFillRect(gRenderer, &rect);
 
-		double percent = (double)this->health / (double)this->maxHealth;
-		SDL_Rect rect2 = { owner->getX() - this->width / 2, owner->getY(), this->width * percent, this->height };
-		SDL_SetRenderDrawColor(gRenderer, 0, 255, 0, 255);
+		double percent = (double)owner->getHealth() / (double)owner->getMaxHealth();
+		SDL_Rect rect2 = { owner->getX() - width / 2, owner->getY() + owner->getHeight() * 0.4 + 1, width * percent, this->height - 2 };
+		SDL_SetRenderDrawColor(gRenderer, 0, 240, 40, 165);
 		SDL_RenderFillRect(gRenderer, &rect2);
 	}
 }

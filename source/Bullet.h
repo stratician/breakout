@@ -6,13 +6,13 @@
 
 struct textureTyp;
 
-enum BULLET_TYPE {
+enum class BULLET_TYPE {
 	DEFAULT,
 	RED_FLAME,
 	BLUE_FLAME,
 };
 
-enum OWNER_TYPE {
+enum class OWNER_TYPE {
 	OWNER_PLAYER,
 	OWNER_AI,
 };
@@ -28,7 +28,7 @@ private:
 	SDL_Texture* tex;
 	CSprite* spr;
 
-	int type;
+	BULLET_TYPE type;
 	int texWidth;
 	int texHeight;
 
@@ -50,8 +50,7 @@ public:
 
 	Bullet();
 	virtual ~Bullet();
-	
-	bool Init(textureTyp* texureData, const int type, double x, double y, double vx, double vy, int life, OWNER_TYPE ownerType);
+	bool Init(textureTyp* texureData, BULLET_TYPE type, double x, double y, double vx, double vy, int life, OWNER_TYPE ownerType);
 	void Process();
 	void Render() const;
 	int getLife() const;

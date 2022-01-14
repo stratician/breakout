@@ -21,7 +21,7 @@ Bullet::~Bullet()
 }
 
 
-bool Bullet::Init(textureTyp* texureData, const int type, double x, double y, double vx, double vy, int life, OWNER_TYPE ownerType)
+bool Bullet::Init(textureTyp* texureData, BULLET_TYPE type, double x, double y, double vx, double vy, int life, OWNER_TYPE ownerType)
 {
 	assert(texureData->tex);
 
@@ -52,7 +52,7 @@ bool Bullet::Init(textureTyp* texureData, const int type, double x, double y, do
 	cyc32 = 0;
 
 
-	playSFX(type);
+	playSFX((int)type);
 
 	return true;
 }
@@ -99,6 +99,7 @@ void Bullet::Process()
 
 	this->vx += v.x * 0.1f;
 	this->vy += v.y * 0.1f;
+	
 	
 	cyc32 = (cyc32 + 1) % 32;
 

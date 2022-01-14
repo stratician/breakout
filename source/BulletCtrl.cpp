@@ -37,7 +37,7 @@ void BulletCtrl::Create(const int type, double x, double y, double vx, double vy
 {
 	Bullet* bullet = new Bullet;
 	
-	bullet->Init(textures[type], type, x, y, vx, vy, bulletLife[type], ownerType);
+	bullet->Init(textures[type], (BULLET_TYPE)type, x, y, vx, vy, bulletLife[type], ownerType);
 
 	bullets.push_back(bullet);
 	

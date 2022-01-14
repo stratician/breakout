@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "BulletCtrl.h"
+#include "Sprite.h"
 
 
 extern SDL_Renderer* gRenderer;

@@ -1,11 +1,11 @@
 #pragma once
 
 
-#include "Player.h"
+#include "Entity.h"
 #include "Common.h"
 
 
-enum ACTION {
+enum class ACTION {
 	AI_LEFT,
 	AI_RIGHT,
 	AI_FIRE,
@@ -13,29 +13,26 @@ enum ACTION {
 
 struct Vec;
 struct textureTyp;
-class Player;
 
-class Enemy: public Player
+
+class Enemy: public Entity
 {
 private:
 	int type;
-	int action;
+	ACTION action;
+	
 public:
 
 	Enemy();
 	virtual ~Enemy();
 
-	bool Init(textureTyp* texureData, const int type, double x, double y, double vx, double vy, int life);
+	bool Init(textureTyp* texureData, const int type, double x, double y, double vx, double vy, int health);
 	void Process(int& nextDirection);
 	void Render();
 	void SetWeapon(const int type);
 	void Fire(double vx, double vy);
-	void SetAction(int action);
+	void SetAction(ACTION action);
 	void ApplyThrust(Vec dir);
 	
-
-	double getX() const;
-	double getY() const;
-
 };
 

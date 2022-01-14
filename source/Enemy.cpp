@@ -11,20 +11,14 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
-	// Free Texture
-	if (tex)
-	{
-		SDL_DestroyTexture(tex);
-	}
-
-	if (spr)
-	{
-		delete spr;
-	}
+	
 }
 
-bool Enemy::Init(textureTyp* texureData, const int type, double x, double y, double vx, double vy, int life)
+bool Enemy::Init(textureTyp* texureData, const int type, double x, double y, double vx, double vy, int health)
 {
+	
+	Entity::Init((OWNER_TYPE)type, health);
+	
 	assert(texureData->tex);
 
 	this->ownerType = OWNER_TYPE::OWNER_AI;
@@ -49,27 +43,19 @@ bool Enemy::Init(textureTyp* texureData, const int type, double x, double y, dou
 	this->vx = vx;
 	this->vy = vy;
 
-	this->life = life;
-	this->radius = 30.0f + life;
+	this->radius = 30.0f + health;
 	this->coolDown = 60 * 3;
 	return true;
-}
-
-void Enemy::SetWeapon(const int type)
-{
-	Player::SetWeapon(type);
-	
 }
 
 
 void Enemy::Render()
 {
-	
 
-	double sx = 0.3f * this->radius / 30.0f;
-	double sy = 0.3f * this->radius / 30.0f;
+	sx = 0.3f * this->radius / 30.0f;
+	sy = 0.3f * this->radius / 30.0f;
 
-	Player::Render();
+	Entity::Render();
 	
 }
 
@@ -78,15 +64,15 @@ void Enemy::Process(int &nextDirection)
 {
 	// Process Code
 
-	Player::Process();
+	Entity::Process();
 
 	switch (action)
 	{
 		case ACTION::AI_LEFT:
-			this->vx -= 0.02f * gGameSpeed * (radius / 30.0f);
+			this->vx -= 0.02f * gGameSpeed * (radius / 60.0f);
 			break;
 		case ACTION::AI_RIGHT:
-			this->vx += 0.02f * gGameSpeed * (radius / 30.0f);
+			this->vx += 0.02f * gGameSpeed * (radius / 60.0f);
 			break;
 		case ACTION::AI_FIRE:
 			// Fire(0.0f, 10.0f);
@@ -103,14 +89,14 @@ void Enemy::Process(int &nextDirection)
 	{
 		this->x = SCREEN_WIDTH - this->width / 2;
 		this->vx = 0.0f;
-		nextDirection = ACTION::AI_LEFT;
+		nextDirection = (int) ACTION::AI_LEFT;
 	}
 
 	if (this->x < 0 + this->width / 2)
 	{
 		this->x = this->width / 2;
 		this->vx = 0.0f;
-		nextDirection = ACTION::AI_RIGHT;
+		nextDirection = (int) ACTION::AI_RIGHT;
 	}
 
 	switch (type)
@@ -142,26 +128,18 @@ void Enemy::Process(int &nextDirection)
 		}
 		break;
 	}
-}
 
-double Enemy::getX() const
-{
-	return this->x;
-}
-
-double Enemy::getY() const
-{
-	return this->y;
+	
 }
 
 void Enemy::Fire(double vx, double vy)
 {
-	Player::Fire(vx, vy, false);
+	Entity::Fire(vx, vy, false);
 
 
 }
 
-void Enemy::SetAction(int action)
+void Enemy::SetAction(ACTION action)
 {
 	this->action = action;
 

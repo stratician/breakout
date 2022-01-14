@@ -151,7 +151,7 @@ bool init()
 
 
 	player = new Player();
-	player->Init(OWNER_TYPE::OWNER_PLAYER);
+	player->Init(OWNER_TYPE::OWNER_PLAYER, 8);
 
 	bulletCtrl = new BulletCtrl();
 	enemyCtrl = new EnemyCtrl();
@@ -278,6 +278,7 @@ int main(int argc, char* args[])
 		}
 		else
 		{
+			SDL_SetRenderDrawBlendMode(gRenderer, SDL_BLENDMODE_BLEND);
 
 			backgroundSpr = new CSprite(gTexture, backgroundTexWidth, backgroundTexHeight);
 
@@ -410,14 +411,14 @@ void Process()
 	if (enemyCtrl)
 	{
 		
-		if(!enemyCtrl->Process() || player->getLife() <= 0)
+		if(!enemyCtrl->Process() || player->getHealth() <= 0)
 		{
-			if (!bAlive || player->getLife() <= 0)
+			if (!bAlive || player->getHealth() <= 0)
 			{
 				gLevel = 0;
 				bAlive = true;
 
-				player->Respawn();
+				player->Respawn(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 60.0f);
 			}
 			else
 			{
@@ -449,7 +450,7 @@ void Process()
 void CreateLevel(int level)
 {
 	enemyCtrl->DestroyAll();
-	gGameSpeed = 1.0f + ((float)level) * 0.3f;
+	gGameSpeed = 1.0f + ((float)level) * 0.15f;
 	
 	if (level & 0x1)
 	{
@@ -458,7 +459,7 @@ void CreateLevel(int level)
 	}
 	else
 	{
-		int rows = 1 + ( level >> 1 );
+		int rows = 1 + ( level >> 2 );
 		if (rows > 7)
 			rows = 7;
 
@@ -477,9 +478,9 @@ void CreateLevel(int level)
 
 void RenderStats()
 {
-	for (int i = 0; i < player->getLife();++i)
+	for (int i = 0; i < player->getHealth();++i)
 	{
-		player->getSpr()->Render(gRenderer, i * 35, 0, 0.1f, 0.1f);
+		player->getSpr()->Render(gRenderer, (float) i * 35, 0, 0.1f, 0.1f);
 	}
 
 }

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Player.h"
+#include "Entity.h"
 
-class Player;
+class Entity;
 
 class HealthBar
 {
@@ -10,11 +10,11 @@ private:
 	double width, height;
 	int maxHealth;
 	int health;
-	Player* owner;
+	Entity* owner;
 
 public:
 
-	HealthBar(Player* owner, int maxHealth, double width, double height);
+	HealthBar(Entity* owner, int maxHealth, double width, double height);
 	virtual ~HealthBar();
 	
 	void Update(int health);

@@ -59,14 +59,14 @@ bool EnemyCtrl::Process()
 		if (enemies[i])
 		{
 
-			if (enemies[i]->getLife() && enemies[i]->getY() > SCREEN_HEIGHT)
+			if (enemies[i]->getHealth() && enemies[i]->getY() > SCREEN_HEIGHT)
 			{
 				// Died
 				bAlive = false;
 				return false;
 			}
 
-			if (!enemies[i]->getLife() || enemies[i]->getY() > SCREEN_HEIGHT)
+			if (!enemies[i]->getHealth() || enemies[i]->getY() > SCREEN_HEIGHT)
 			{
 				// Destroy Enemy
 				enemies.erase(enemies.begin() + i);
@@ -90,7 +90,7 @@ bool EnemyCtrl::Process()
 		{
 			if (enemies[i])
 			{
-				enemies[i]->SetAction(nextAction);
+				enemies[i]->SetAction((ACTION)nextAction);
 				enemies[i]->ApplyThrust({ 0.0, 1.0f });
 			}
 		}
@@ -137,7 +137,7 @@ void EnemyCtrl::ProcessDestroy()
 	{
 		if (enemies[i])
 		{
-			if (!enemies[i]->getLife() )
+			if (!enemies[i]->getHealth() )
 			{
 				// Destroy Enemy
 				enemies.erase(enemies.begin() + i);

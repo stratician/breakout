@@ -7,6 +7,7 @@
 
 class HealthBar;
 class Bullet;
+class Item;
 
 enum class WEAPON_TYPE {
 	WEAPON_DEFAULT,
@@ -46,6 +47,11 @@ protected:
 	int maxHealth;
 	double radius;
 
+	int weaponEnergy;
+	int maxWeaponEnergy;
+
+	int cyc16;
+
 public:
 
 	Entity();
@@ -56,10 +62,12 @@ public:
 	virtual void Render();
 	virtual bool BulletHit(Bullet* bullet, double radius);
 	virtual void ProcessHitByBullets(Bullet* bullet);
+	virtual void ProcessCollideWithItem(Item* item);
 	virtual bool ApplyDamage(int damage);
 	virtual void Respawn(double x, double y);
 	void SetWeapon(const WEAPON_TYPE type);
-	virtual void Fire(double vx, double vy, bool bCoolDown = true);
+	virtual void Fire(double vx, double vy, bool bPrimary, bool bCoolDown = true);
+	void AddWeaponEnergy(int energy);
 
 	CSprite* getSpr() const;
 

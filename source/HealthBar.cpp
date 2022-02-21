@@ -17,7 +17,23 @@ HealthBar::~HealthBar()
 	
 }
 
+void HealthBar::RenderOwnerless(double x, double y) const
+{
+	double percent = (double) this->health / (double) this->maxHealth;
+	
 
+	if (percent > 0)
+	{
+
+		SDL_Rect rect = { x - width / 2, y, this->width, this->height };
+		SDL_SetRenderDrawColor(gRenderer, 200, 60, 60, 128);
+		SDL_RenderFillRect(gRenderer, &rect);
+		
+		SDL_Rect rect2 = { x - width / 2, y + 1, this->width * percent, this->height - 2 };
+		SDL_SetRenderDrawColor(gRenderer, 230, 40, 10, 255);
+		SDL_RenderFillRect(gRenderer, &rect2);
+	}
+}
 
 void HealthBar::Render() const
 {

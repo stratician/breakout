@@ -6,7 +6,8 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 
-
+#include <cstdlib>
+#include <ctime>
 
 #include <memory>
 #include <vector>
@@ -16,6 +17,7 @@
 #include "Player.h"
 #include "BulletCtrl.h"
 #include "EnemyCtrl.h"
+#include "ItemCtrl.h"
 
 static bool bPlayerWeaponSFXPlaying = false;
 static int gSfxFlameDelay = 0;
@@ -82,7 +84,7 @@ Player* player = NULL;
 
 BulletCtrl* bulletCtrl = NULL;
 EnemyCtrl* enemyCtrl = NULL;
-
+ItemCtrl* itemCtrl = NULL;
 
 void Process();
 void Render();
@@ -92,6 +94,9 @@ void RenderStats();
 
 bool init()
 {
+	// Init Random Seed
+	srand(time(NULL));
+
 	//Initialization flag
 	bool success = true;
 
@@ -155,14 +160,21 @@ bool init()
 
 	bulletCtrl = new BulletCtrl();
 	enemyCtrl = new EnemyCtrl();
-	
+	itemCtrl = new ItemCtrl();
 	
 
 	return success;
 }
 
+const int totalMusic = 2;
+const char* musicLst[] = { "BayouBoogie.mp3", "KrooksMarch.mp3"};
+
+
 bool loadMedia()
 {
+
+	
+
 	//Loading success flag
 	bool success = true;
 
@@ -174,8 +186,13 @@ bool loadMedia()
 		success = false;
 	}
 	
+
+
+	char buf[256];
+	sprintf_s(buf, "assets/music/%s", musicLst[rand() % 2]);
+
 	//Load music
-	gMusic = Mix_LoadMUS("assets/music/level1.mp3");
+	gMusic = Mix_LoadMUS(buf);
 	if (gMusic == NULL)
 	{
 		printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
@@ -224,6 +241,11 @@ void close()
 	if (enemyCtrl)
 	{
 		delete enemyCtrl;
+	}
+
+	if (itemCtrl)
+	{
+		delete itemCtrl;
 	}
 
 	//Free loaded image
@@ -388,6 +410,11 @@ void Render()
 	{
 		enemyCtrl->Render();
 	}
+
+	if (itemCtrl)
+	{
+		itemCtrl->Render();
+	}
 	
 	RenderStats();
 }
@@ -406,6 +433,11 @@ void Process()
 	if (bulletCtrl)
 	{
 		bulletCtrl->Process();
+	}
+
+	if (itemCtrl)
+	{
+		itemCtrl->Process();
 	}
 
 	if (enemyCtrl)

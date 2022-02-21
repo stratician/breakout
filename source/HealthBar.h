@@ -20,6 +20,7 @@ public:
 	void Update(int health);
 	void Process();
 	void Render() const;
+	void RenderOwnerless(double x, double y) const;
 	
 };
 

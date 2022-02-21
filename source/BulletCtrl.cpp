@@ -1,7 +1,7 @@
 #include "Common.h"
 
 
-int bulletLife[] = { 120, 40, 30, 120 };
+int bulletLife[] = { 120, 50, 50, 120 };
 
 BulletCtrl::BulletCtrl()
 {

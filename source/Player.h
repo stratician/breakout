@@ -9,6 +9,8 @@ class Player: public Entity
 {
 protected:
 
+
+	HealthBar *weaponEnergyBar; // We use the same health bar class for weapon energy;
 	
 public:
 

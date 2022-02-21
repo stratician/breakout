@@ -27,7 +27,9 @@
     <ClCompile Include="source\EnemyCtrl.cpp" />
     <ClCompile Include="source\Entity.cpp" />
     <ClCompile Include="source\HealthBar.cpp" />
+    <ClCompile Include="source\ItemCtrl.cpp" />
     <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="source\Item.cpp" />
     <ClCompile Include="source\Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -38,7 +40,9 @@
     <ClInclude Include="source\EnemyCtrl.h" />
     <ClInclude Include="source\Entity.h" />
     <ClInclude Include="source\HealthBar.h" />
+    <ClInclude Include="source\ItemCtrl.h" />
     <ClInclude Include="source\Player.h" />
+    <ClInclude Include="source\Item.h" />
     <ClInclude Include="source\Sprite.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

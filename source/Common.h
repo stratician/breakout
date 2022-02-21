@@ -5,11 +5,13 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "BulletCtrl.h"
+#include "ItemCtrl.h"
 #include "Sprite.h"
 
 
 extern SDL_Renderer* gRenderer;
 extern BulletCtrl* bulletCtrl;
+extern ItemCtrl* itemCtrl;
 
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;

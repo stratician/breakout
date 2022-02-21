@@ -51,6 +51,8 @@ bool Player::Init(OWNER_TYPE ownerType, int life)
 
 	SetWeapon(WEAPON_TYPE::WEAPON_DEFAULT);
 
+	// Create Weapon Energy (HealthBar)
+	weaponEnergyBar = new HealthBar(this, this->maxWeaponEnergy, 200, 20);
 	
 
 	return true;
@@ -61,6 +63,11 @@ bool Player::Init(OWNER_TYPE ownerType, int life)
 void Player::Render()
 {
 	Entity::Render();
+
+	if (weaponType != WEAPON_TYPE::WEAPON_DEFAULT)
+	{
+		weaponEnergyBar->RenderOwnerless(SCREEN_WIDTH - 220, 10);
+	}
 }
 
 
@@ -77,25 +84,19 @@ void Player::ProcessInput()
 		this->vx -= 0.5f;
 	}
 
+
 	if (KEY_FIRE)
 	{
-		weaponType = WEAPON_TYPE::WEAPON_DEFAULT;
-		Fire(0.0f, -10.0f);
+		Fire(0.0f, -10.0f, true);
 	}
 
-	if (KEY_FIRE_ALT)
+
+	if (KEY_FIRE_ALT && weaponEnergy > 0)
 	{
-		weaponType = WEAPON_TYPE::WEAPON_RED_FLAME;
-
-		if (!coolDown)
-		{
-			Fire(0.0f, -10.0f);
-			coolDown = 0;
-			Fire(-2.0f, -9.0f);
-			coolDown = 0;
-			Fire(2.0f, -9.0f);
-		}
+		Fire(0.0f, -10.0f, false);
 	}
+
+	
 
 
 	this->vx *= 0.95f;
@@ -129,6 +130,9 @@ void Player::Process()
 	{
 		--coolDown;
 	}
+
+
+	weaponEnergyBar->Update(this->weaponEnergy);
 
 }
 

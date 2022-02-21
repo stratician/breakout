@@ -2,7 +2,7 @@
 #include "Common.h"
 
 
-int weaponCoolDownLst[] = { 15, 3, 2, 30 };
+int weaponCoolDownLst[] = { 15, 6, 5, 30 };
 
 Entity::Entity()
 {
@@ -35,9 +35,13 @@ bool Entity::Init(OWNER_TYPE ownerType, int health)
 	this->health = health;
 	this->maxHealth = health;
 	radius = 60.0f; // Default
+	weaponEnergy = 0;
 
 	this->ownerType = ownerType;
 	healthbar = new HealthBar(this, this->health, 60, 6);
+
+	maxWeaponEnergy = 60 * 10;
+	cyc16 = 0;
 
 	return true;
 }
@@ -49,27 +53,33 @@ void Entity::SetWeapon(const WEAPON_TYPE type)
 }
 
 
-void Entity::Fire(double vx, double vy, bool bCoolDown)
+void Entity::Fire(double vx, double vy, bool bPrimary, bool bCoolDown)
 {
 	if (coolDown)
 		return;
 
+	WEAPON_TYPE type = weaponType;
+	if (bPrimary)
+	{
+		type = WEAPON_TYPE::WEAPON_DEFAULT;
+	}
+
 	// Fire Bullet
-	switch (weaponType)
+	switch (type)
 	{
 	case WEAPON_TYPE::WEAPON_DEFAULT:
-		bulletCtrl->Create((int)weaponType, this->x, this->y - this->height * 0.7f, vx, vy, ownerType);
+		bulletCtrl->Create((int)type, this->x, this->y - this->height * 0.7f, vx, vy, ownerType);
 		break;
 
 	case WEAPON_TYPE::WEAPON_RED_FLAME:
-		bulletCtrl->Create((int)weaponType, this->x, this->y - this->height * 0.7f, vx, vy, ownerType);
+		bulletCtrl->Create((int)type, this->x, this->y - this->height * 0.7f, vx, vy, ownerType);
 		break;
 	}
 
 	if (bCoolDown)
 	{
 		// Reset the cool down for our weapon
-		coolDown = weaponCoolDownLst[(int)weaponType];
+		coolDown = weaponCoolDownLst[(int)type];
 	}
 
 
@@ -100,10 +110,48 @@ void Entity::Process()
 		ProcessHitByBullets(bullet);
 	}
 
+
+	// Detections with Items (for Players)
+	if (this->ownerType == OWNER_TYPE::OWNER_PLAYER)
+	{
+		std::vector<Item*> items = itemCtrl->getItems();
+		for (Item* item : items)
+		{
+			ProcessCollideWithItem(item);
+		}
+	}
+
+
 	if (coolDown)
 	{
 		coolDown--;
 	}
+
+	cyc16++;
+	if (cyc16 == 16)
+	{
+		cyc16 = 0;
+		if (weaponType != WEAPON_TYPE::WEAPON_DEFAULT)
+		{
+			cyc16 = cyc16;
+		}
+	}
+
+	if (weaponEnergy)
+	{
+		if (weaponType != WEAPON_TYPE::WEAPON_DEFAULT)
+		{
+			if (!cyc16 || (KEY_FIRE_ALT && weaponType != WEAPON_TYPE::WEAPON_DEFAULT))
+			{
+				weaponEnergy--;
+			}
+		}
+	}
+	else
+	{
+		weaponType = WEAPON_TYPE::WEAPON_DEFAULT;
+	}
+	
 
 }
 
@@ -180,6 +228,15 @@ void Entity::ProcessHitByBullets(Bullet* bullet)
 		if (!ApplyDamage(1))
 		{
 			health = 0;
+
+			// If we're an AI, chance of spawning Item
+			if (this->ownerType == OWNER_TYPE::OWNER_AI)
+			{
+				if (rand() % 3 == 0)
+				{
+					itemCtrl->Create(1, this->x, this->y, 0.0f, 1.0f);
+				}
+			}
 		}
 
 		// destroy bullet
@@ -201,4 +258,50 @@ void Entity::Respawn(double x, double y)
 CSprite* Entity::getSpr() const
 {
 	return spr;
+}
+
+
+
+void Entity::ProcessCollideWithItem(Item* item)
+{
+
+	// Simple radial collision
+	Vec dist = { item->x - this->x, item->y - this->y };
+
+	if (dist.length2() < radius * radius)
+	{
+		// Collect Item
+		ITEM_TYPE type = item->GetType();
+
+		switch (type)
+		{
+			case ITEM_TYPE::DEFAULT:
+				this->weaponType = WEAPON_TYPE::WEAPON_DEFAULT;
+				break;
+			case ITEM_TYPE::RED_FLAME:
+				this->weaponType = WEAPON_TYPE::WEAPON_RED_FLAME;
+				AddWeaponEnergy(60 * 2);
+				break;
+			case ITEM_TYPE::BLUE_FLAME:
+				this->weaponType = WEAPON_TYPE::WEAPON_BLUE_FLAME;
+				AddWeaponEnergy(60 * 2);
+				break;
+			default:
+				this->weaponType = WEAPON_TYPE::WEAPON_DEFAULT;
+				AddWeaponEnergy(60 * 2);
+				break;
+		}
+
+		item->Destroy();
+	}
+
+}
+
+void Entity::AddWeaponEnergy(int energy)
+{
+	this->weaponEnergy += energy;
+	if (this->weaponEnergy > this->maxWeaponEnergy)
+	{
+		this->weaponEnergy = this->maxWeaponEnergy;
+	}
 }
